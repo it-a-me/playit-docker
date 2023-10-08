@@ -10,9 +10,7 @@ jobs:
     steps:
       - name: Fetch Latest Release
         run: |
-          curl -sSL "https://api.github.com/repos/playit-cloud/playit-agent/releases/latest" |
-          perl -ngMJSON::PP -e 'my $json = decode_json $_; printf qq{REPO_VERSION="%s"\nREPO_TARBALL="%s"\n}, $json->{"name"}, $json->{"tarball_url"}' >>
-          ${GITHUB_ENV}
+          curl -sSL "https://api.github.com/repos/playit-cloud/playit-agent/releases/latest" | perl -ngMJSON::PP -e 'my $json = decode_json $_; printf qq{REPO_VERSION="%s"\nREPO_TARBALL="%s"\n}, $json->{"name"}, $json->{"tarball_url"}' >> ${GITHUB_ENV}
       - name: debug print
         run: |
           echo "$REPO_VERSION    $REPO_TARBALL"
