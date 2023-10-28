@@ -8,10 +8,10 @@ name: Docker
 on:
   schedule:
     - cron: '18 8 * * *'
-  push:
-    branches: [ "master" ]
+  #push:
+    #branches: [ "master" ]
     # Publish semver tags as releases.
-    tags: [ 'v*.*.*' ]
+  #  tags: [ 'v*.*.*' ]
   pull_request:
     branches: [ "master" ]
   workflow_dispatch:
