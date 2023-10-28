@@ -1,5 +1,5 @@
 FROM docker.io/rust:alpine as BUILDER
-ENV VERSION=0.15.9
+ARG VERSION=0.15.9
 # builder image
 RUN apk add git musl-dev curl
 RUN curl -L https://github.com/playit-cloud/playit-agent/archive/refs/tags/v${VERSION}.tar.gz | tar xz
