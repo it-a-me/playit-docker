@@ -1,6 +1,8 @@
 name: Docker Image CI
 
 on:
+    push:
+        branches: [ "master" ]
     release:
       types: [created]
 jobs:
@@ -12,9 +14,9 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+    - name: Login to the Docker Registry
+      run: docker login ghcr.io/it-a-me/playit-docker -u github-action --password="$GITHUB_TOKEN"
     - name: Build the Docker image
       run: docker build . --file Dockerfile --build-arg VERSION=$GITHUB_REF_NAME --tag "${{ github.event.repository.name }}:$(date +%s)" --tag "${{ github.event.repository.name }}:$GITHUB_REF_NAME" --tag latest
-    - name: Login to the Docker Registry
-      run: docker login ghcr.io/it-a-me/playit-docker -u github-action --password $GITHUB_TOKEN
     - name: Publish the Docker image
       run: docker push --all-tags playit-docker
