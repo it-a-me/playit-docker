@@ -1,0 +1,20 @@
+name: Docker Image CI
+
+on:
+    release:
+      types: [created]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Build the Docker image
+      run: docker build . --file Dockerfile --tag "${{ github.event.repository.name }}:$(date +%s)" --tag "${{ github.event.repository.name }}:$GITHUB_REF" --tag latest
+    - name: Login to the Docker Registry
+      run: echo $GITHUB_TOKEN | docker login ghcr.io/it-a-me/playit-docker -u github-action --password-stdin
+    - name: Publish the Docker image
+      run: docker push --all-tags playit-docker
